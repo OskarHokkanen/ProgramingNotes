@@ -6,7 +6,8 @@ I have done quite a bit today actually. The Tkinter framework is pretty easy to 
 
 
 ## TODO
-- Fix Database saving.
+- I might try to use pysondb!! : https://dev.to/fredysomy/pysondb-a-json-based-lightweight-database-for-python-ija
+- Make CRUD commands
 - Another option might be to use a json or sql database? Might be good as a remainder.
 - Plan out a GUI
 - Plan out the code files(Class diagram maybe).  

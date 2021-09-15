@@ -1,24 +1,20 @@
 from tkinter import *
 import random, json
+from pysondb import db
 
 def add_item():
     print('Adding...')
     t = text.get()
     project_name = opMenuValue.get()
     if len(project_name) > 0:
-        with open(project_name + '.json', 'a') as f:
-            json.dump(format_to_db(t, project_name), f, ensure_ascii=False, indent=4)
-        
+        format_to_db(t, project_name)
         print("Text: '{0}' added to the database ".format(t))
+        
 
 
 def format_to_db(text, project_name):
-    with open(project_name + '.json', 'r') as json_file:
-        data = json.load(json_file)
-        print(data)
-        r = random.randint(1, 100)
-        text = '{"id": "' + str(len(text) + r) + '", "content": "' + text + '"}'
-    return text
+    a = db.getDb(project_name)
+    a.add({"id": random.randint(1, 1000), "content": text})
 
 # Create window object
 app = Tk()
