@@ -2,7 +2,9 @@
 A little project of a programing note application using Tkinter
 
 ## Dev comment
-I have done quite a bit today actually. The Tkinter framework is pretty easy to get the hang of. The biggest issue right now is the DB which i plan to save to local files (Acctually dont know why i want to do it this way...),
+I have done quite a bit today actually. The Tkinter framework is pretty easy to get the hang of. The biggest issue right now is the DB which i plan to save to local files (Acctually dont know why i want to do it this way...).
+
+I have added simple CRUD to api.py - will be working more on this today (2021-09-16)
 
 
 ## TODO

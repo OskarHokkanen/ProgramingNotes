@@ -1,20 +1,16 @@
 from tkinter import *
 import random, json
-from pysondb import db
+import api as api
 
 def add_item():
     print('Adding...')
     t = text.get()
     project_name = opMenuValue.get()
     if len(project_name) > 0:
-        format_to_db(t, project_name)
+        item = {"content": t, "project_name": project_name}
+        api.postItem(item)
         print("Text: '{0}' added to the database ".format(t))
-        
-
-
-def format_to_db(text, project_name):
-    a = db.getDb(project_name)
-    a.add({"id": random.randint(1, 1000), "content": text})
+        print(api.getAllWithProjectName('Colix'))
 
 # Create window object
 app = Tk()
