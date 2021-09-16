@@ -2,6 +2,7 @@ from tkinter import *
 import random, json
 import api as api
 
+
 def add_item():
     print('Adding...')
     t = text.get()
@@ -13,6 +14,13 @@ def add_item():
         print(api.getAllWithProjectName('Colix'))
 
 # Create window object
+items = api.getAllItems()
+projects = list()
+for val in items:
+    if val['project_name'] not in projects:
+        projects.append(val['project_name'])
+        print('Adding Project ' + val['project_name'])
+
 app = Tk()
 
 # Some text and labels
@@ -24,7 +32,7 @@ label.grid(row=0, column=0, sticky=W)
 # Set variabels 
 opMenuValue = StringVar(app)
 opMenuValue.set('general') # default value
-opMenu = OptionMenu(app, opMenuValue, 'Colix', 'ClasOhlson')
+opMenu = OptionMenu(app, opMenuValue, *projects)
 
 opMenu.grid(row=0, column=3, sticky=E)
 # Dropdown menu (test) END
@@ -35,6 +43,8 @@ entry.grid(row=0, column=1)
 # Listbox
 list = Listbox(app, height=8, width=50)
 list.grid(row=3, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
+items = api.getAllItems()
+
 
 # Scrollbar
 # You can also use scrollbar if your want with Scrollbar(app)

@@ -18,4 +18,5 @@ def updateItemById(id, data):
 
 def getAllItems():
     # GET ALL ITEMS IN DB
-    return
+    a = database.getDb(DB_NAME)
+    return a.getAll()
