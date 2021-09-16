@@ -1,26 +1,56 @@
 from tkinter import *
 import random, json
+import tkinter
 import api as api
 
+def refresh_project_list(opMenu, project_list):
+    opMenu['menu'].delete(0, 'end')
+    opMenuValue.set('')
+    for project in project_list:
+        opMenu['menu'].add_command(label=project, command=tkinter._setit(opMenuValue, project))
+
+def update_projects(projects):
+    items = api.getAllItems()
+    for val in items:
+        if val['project_name'] not in projects:
+            projects.append(val['project_name'])
+            print('Adding Project ' + val['project_name'])
+    return projects
 
 def add_item():
     print('Adding...')
     t = text.get()
     project_name = opMenuValue.get()
-    if len(project_name) > 0:
-        item = {"content": t, "project_name": project_name}
-        api.postItem(item)
-        print("Text: '{0}' added to the database ".format(t))
-        print(api.getAllWithProjectName('Colix'))
+    if len(project_name) > 0 and len(t) > 0:
+        if project_name == 'New Project':
+            def create_project_pressed(top):
+                item = {"content": t, "project_name": topText.get()}
+                top.destroy()
+                api.postItem(item)
+                refresh_project_list(opMenu, update_projects(projects))
+
+
+            print('Creating new project')
+            top = Toplevel(app)
+            top.geometry('300x150')
+
+            topText = StringVar()
+
+            topEntry = Entry(top, textvariable=topText, width=25)
+            topEntry.grid(row=1, column=1)
+
+            topButton = Button(top, text="Create project", command=lambda:create_project_pressed(top))
+            topButton.grid(row=1, column=2)
+        else:
+            item = {"content": t, "project_name": project_name}
+            api.postItem(item)
+            print("Text: '{0}' added to the database ".format(t))
+            print(api.getAllWithProjectName('Colix'))
 
 # Create window object
 items = api.getAllItems()
 projects = list()
-for val in items:
-    if val['project_name'] not in projects:
-        projects.append(val['project_name'])
-        print('Adding Project ' + val['project_name'])
-
+projects = update_projects(projects)
 app = Tk()
 
 # Some text and labels
