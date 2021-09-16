@@ -22,7 +22,7 @@ def add_item():
     t = text.get()
     project_name = opMenuValue.get()
     if len(project_name) > 0 and len(t) > 0:
-        if project_name == 'New Project':
+        if project_name == 'New Project +':
             def create_project_pressed(top):
                 item = {"content": t, "project_name": topText.get()}
                 top.destroy()
