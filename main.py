@@ -17,6 +17,18 @@ def update_projects(projects):
             print('Adding Project ' + val['project_name'])
     return projects
 
+def show_items():
+    return
+
+
+def update_item():
+    return
+
+
+def delete_item():
+    return
+
+
 def add_item():
     print('Adding...')
     t = text.get()
@@ -74,6 +86,8 @@ entry.grid(row=0, column=1)
 list = Listbox(app, height=8, width=50)
 list.grid(row=3, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
 items = api.getAllItems()
+for i in items:
+    list.insert('end', 'Note: ' + i['content'])
 
 
 # Scrollbar
@@ -82,14 +96,25 @@ items = api.getAllItems()
 # scrollbar.configure(command=list.yview)
 
 # Buttons
-add_btn = Button(app, text="Add", width=12, command=add_item)
-add_btn.grid(row=2, column=0, pady=20)
+add_btn = Button(app, text="Add", width=8, command=add_item)
+add_btn.grid(row=2, column=0, padx=5)
+
+show_btn = Button(app, text="Show", width=8, command=show_items())
+show_btn.grid(row=2, column=1, padx=5)
+
+update_btn = Button(app, text="Update", width=8, command=update_item())
+update_btn.grid(row=2, column=3, padx=5)
+
+delete_btn = Button(app, text="Delete", width=8, command=delete_item())
+delete_btn.grid(row=2, column=4, padx=5)
+
+
 
 # Title of the program
 app.title('Oskars Notes')
 
 # Size of the window
-app.geometry('700x350')
+app.geometry('800x350')
 
 # Start program
 app.mainloop()
