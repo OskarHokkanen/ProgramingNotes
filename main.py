@@ -17,7 +17,7 @@ def update_projects(projects):
             print('Adding Project ' + val['project_name'])
     return projects
 
-def show_items():
+def show_items(*args):
     print('SHOW')
     list.delete(0, END)
     print(opMenuValue)
@@ -32,11 +32,13 @@ def update_item():
     print(list.curselection())
     if list.curselection() != "":
         api.updateItemByQuery({"content": list.get(list.curselection()), "project_name": opMenuValue.get()}, {"content": text.get()})
+        show_items()
     return
 
 
 def delete_item():
     api.deleteItem(opMenuValue.get(), list.get(list.curselection()))
+    show_items()
     return
 
 
@@ -68,7 +70,8 @@ def add_item():
             item = {"content": t, "project_name": project_name}
             api.postItem(item)
             print("Text: '{0}' added to the database ".format(t))
-            print(api.getAllWithProjectName('Colix'))
+        show_items()
+    
 
 # Create window object
 items = api.getAllItems()
@@ -78,23 +81,24 @@ app = Tk()
 
 # Some text and labels
 text = StringVar()
-label = Label(app, text='Name', font=('bold', 14), pady=20)
+label = Label(app, text='Note:', font=('bold', 14))
 label.grid(row=0, column=0, sticky=W)
 
 # Dropdown menu (test) Start
 # Set variabels 
 opMenuValue = StringVar(app)
 opMenuValue.set('general') # default value
+opMenuValue.trace('w', show_items)
 opMenu = OptionMenu(app, opMenuValue, *projects)
 
-opMenu.grid(row=0, column=3, sticky=E)
+opMenu.grid(row=0, column=5, sticky=E)
 # Dropdown menu (test) END
 # Input
 entry = Entry(app, textvariable=text)
 entry.grid(row=0, column=1)
 
 # Listbox
-list = Listbox(app, height=8, width=50)
+list = Listbox(app, height=10, width=70)
 list.grid(row=3, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
 
 
@@ -107,14 +111,14 @@ list.grid(row=3, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
 add_btn = Button(app, text="Add", width=8, command=add_item)
 add_btn.grid(row=2, column=0, padx=5)
 
-show_btn = Button(app, text="Show", width=8, command=show_items)
-show_btn.grid(row=2, column=1, padx=5)
+# show_btn = Button(app, text="Show", width=8, command=show_items)
+# show_btn.grid(row=2, column=1, padx=5)
 
 update_btn = Button(app, text="Update", width=8, command=update_item)
-update_btn.grid(row=2, column=3, padx=5)
+update_btn.grid(row=2, column=1, padx=5)
 
 delete_btn = Button(app, text="Delete", width=8, command=delete_item)
-delete_btn.grid(row=2, column=4, padx=5)
+delete_btn.grid(row=2, column=2, padx=5)
 
 
 
@@ -124,6 +128,6 @@ icon = PhotoImage(file='icon.png')
 app.tk.call('wm', 'iconphoto', app._w, icon)
 # Size of the window
 app.geometry('800x350')
-
+show_items()
 # Start program
 app.mainloop()
