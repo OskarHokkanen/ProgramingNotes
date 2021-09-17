@@ -18,14 +18,25 @@ def update_projects(projects):
     return projects
 
 def show_items():
+    print('SHOW')
+    list.delete(0, END)
+    print(opMenuValue)
+    items = api.getAllWithProjectName(opMenuValue.get())
+    print(items)
+    for i in items:
+        list.insert('end', i['content'])
     return
 
 
 def update_item():
+    print(list.curselection())
+    if list.curselection() != "":
+        api.updateItemByQuery({"content": list.get(list.curselection()), "project_name": opMenuValue.get()}, {"content": text.get()})
     return
 
 
 def delete_item():
+    api.deleteItem(opMenuValue.get(), list.get(list.curselection()))
     return
 
 
@@ -85,9 +96,6 @@ entry.grid(row=0, column=1)
 # Listbox
 list = Listbox(app, height=8, width=50)
 list.grid(row=3, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
-items = api.getAllItems()
-for i in items:
-    list.insert('end', 'Note: ' + i['content'])
 
 
 # Scrollbar
@@ -99,20 +107,21 @@ for i in items:
 add_btn = Button(app, text="Add", width=8, command=add_item)
 add_btn.grid(row=2, column=0, padx=5)
 
-show_btn = Button(app, text="Show", width=8, command=show_items())
+show_btn = Button(app, text="Show", width=8, command=show_items)
 show_btn.grid(row=2, column=1, padx=5)
 
-update_btn = Button(app, text="Update", width=8, command=update_item())
+update_btn = Button(app, text="Update", width=8, command=update_item)
 update_btn.grid(row=2, column=3, padx=5)
 
-delete_btn = Button(app, text="Delete", width=8, command=delete_item())
+delete_btn = Button(app, text="Delete", width=8, command=delete_item)
 delete_btn.grid(row=2, column=4, padx=5)
 
 
 
 # Title of the program
 app.title('Oskars Notes')
-
+icon = PhotoImage(file='icon.png')
+app.tk.call('wm', 'iconphoto', app._w, icon)
 # Size of the window
 app.geometry('800x350')
 
