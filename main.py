@@ -1,7 +1,12 @@
 from tkinter import *
+from tkinter import ttk
 import random, json
 import tkinter
 import api as api
+MAIN_COLOR = (255, 20, 100)
+
+def rgb_hack(rgb):
+    return "#%02x%02x%02x" % rgb  
 
 def refresh_project_list(opMenu, project_list):
     opMenu['menu'].delete(0, 'end')
@@ -78,11 +83,11 @@ items = api.getAllItems()
 projects = list()
 projects = update_projects(projects)
 app = Tk()
-
+s = ttk.Style()
+s.configure("TMenubutton", background="red")
 # Some text and labels
 text = StringVar()
-label = Label(app, text='Note:', font=('bold', 14))
-label.grid(row=0, column=0, sticky=W)
+
 
 # Dropdown menu (test) Start
 # Set variabels 
@@ -90,16 +95,17 @@ opMenuValue = StringVar(app)
 opMenuValue.set('general') # default value
 opMenuValue.trace('w', show_items)
 opMenu = OptionMenu(app, opMenuValue, *projects)
+opMenu.config(font=('Times', 20), fg="#bc6eb8", width=10)
 
-opMenu.grid(row=0, column=5, sticky=E)
+opMenu.grid(row=2, column=6)
 # Dropdown menu (test) END
 # Input
-entry = Entry(app, textvariable=text)
-entry.grid(row=0, column=1)
+entry = Entry(app, textvariable=text, font=('Times', 20))
+entry.grid(row=1, column=1, pady=20)
 
 # Listbox
-list = Listbox(app, height=10, width=70)
-list.grid(row=3, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
+list = Listbox(app, height=10, width=70, font=('Times', 20))
+list.grid(row=4, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
 
 
 # Scrollbar
@@ -108,26 +114,28 @@ list.grid(row=3, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
 # scrollbar.configure(command=list.yview)
 
 # Buttons
-add_btn = Button(app, text="Add", width=8, command=add_item)
-add_btn.grid(row=2, column=0, padx=5)
+add_btn = Button(app, text="Add", width=8, command=add_item, font=('Times', 20), fg="#6ebc96", bg="#cccccc")
+add_btn.grid(row=2, column=0)
 
-# show_btn = Button(app, text="Show", width=8, command=show_items)
+# show_btn = Button(app, text="Show", width=8, command=show_items)239 249 235
 # show_btn.grid(row=2, column=1, padx=5)
 
-update_btn = Button(app, text="Update", width=8, command=update_item)
-update_btn.grid(row=2, column=1, padx=5)
+update_btn = Button(app, text="Update", width=8, command=update_item, font=('Times', 20), fg='#6e76bc')
+update_btn.grid(row=2, column=1)
 
-delete_btn = Button(app, text="Delete", width=8, command=delete_item)
-delete_btn.grid(row=2, column=2, padx=5)
+delete_btn = Button(app, text="Delete", width=8, command=delete_item, font=('Times', 20), fg="#bc6e72", bg="#cccccc")
+delete_btn.grid(row=2, column=2)
 
 
 
 # Title of the program
-app.title('Oskars Notes')
+app.title('PyNotes')
 icon = PhotoImage(file='icon.png')
 app.tk.call('wm', 'iconphoto', app._w, icon)
 # Size of the window
-app.geometry('800x350')
+app.geometry('1000x450')
 show_items()
+# Sets the background color
+app.config(bg=rgb_hack((204, 204, 204)))
 # Start program
 app.mainloop()
